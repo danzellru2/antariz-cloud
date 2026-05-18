@@ -30,6 +30,7 @@ const InstagramIcon = (props) => (
 export default function PortfolioEmpresa3D() {
   const containerRef = useRef(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [isFormOpen, setIsFormOpen] = useState(false);
 
@@ -80,35 +81,73 @@ export default function PortfolioEmpresa3D() {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // Advanced Scroll Parallax
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"]
-  });
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 30);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-  // Re-add spring for that premium buttery smoothness, but ultra-fast (stiffness 400, damping 40)
-  const smoothProgress = useSpring(scrollYProgress, { stiffness: 400, damping: 40, restDelta: 0.001 });
-
-  // Hero Parallax
-  const yHeroText = useTransform(smoothProgress, [0, 0.2], ["0%", "50%"]);
-  const opacityHeroText = useTransform(smoothProgress, [0, 0.15], [1, 0]);
-  const scaleHeroBackground = useTransform(smoothProgress, [0, 0.3], [1, 1.1]);
-
-  // Projects Parallax
-  const yProjects1 = useTransform(smoothProgress, [0.1, 0.8], [150, -150]);
-  const yProjects2 = useTransform(smoothProgress, [0.1, 0.8], [300, -300]);
+  // Smooth, standard animations for entry
+  // Scroll parallax hooks removed for high performance and buttery smooth native scroll
 
   return (
     <div ref={containerRef} className="min-h-[350vh] w-full overflow-x-hidden relative text-white selection:bg-white selection:text-black font-sans bg-[#020202]">
 
       {/* Top Navbar */}
       <motion.nav
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
-        className="absolute top-0 w-full z-50 px-6 py-8 flex justify-between items-center"
+        initial={{ opacity: 0, y: -30 }}
+        animate={{ 
+          opacity: 1, 
+          y: 0,
+          backgroundColor: isScrolled ? "rgba(2, 2, 2, 0.45)" : "rgba(0, 0, 0, 0)",
+          backdropFilter: isScrolled ? "blur(30px)" : "blur(0px)",
+          borderBottom: isScrolled ? "1px solid rgba(255, 255, 255, 0.05)" : "1px solid rgba(0, 0, 0, 0)",
+          paddingTop: isScrolled ? "1rem" : "1.75rem",
+          paddingBottom: isScrolled ? "1rem" : "1.75rem",
+        }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        className="fixed top-0 left-0 w-full z-50 px-6 md:px-12 flex justify-between items-center transition-all duration-300"
       >
-        <img src={logoHorizontal} alt="Antariz Cloud" className="h-8 md:h-10 object-contain opacity-90" />
+        <img src={logoHorizontal} alt="Antariz Cloud" className="h-8 md:h-9 object-contain opacity-95 transition-all duration-300" />
+        
+        {/* Menu Links for Desktop */}
+        <div className="hidden md:flex items-center gap-10">
+          <a href="#arquitectura" className="group relative text-sm font-medium tracking-wide text-zinc-400 hover:text-white transition-colors duration-300">
+            <span>Arquitectura</span>
+            <span className="absolute bottom-[-4px] left-0 w-0 h-[1px] bg-white group-hover:w-full transition-all duration-300" />
+          </a>
+          <a href="#obras" className="group relative text-sm font-medium tracking-wide text-zinc-400 hover:text-white transition-colors duration-300">
+            <span>Obras Maestras</span>
+            <span className="absolute bottom-[-4px] left-0 w-0 h-[1px] bg-white group-hover:w-full transition-all duration-300" />
+          </a>
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 400, damping: 20 }}
+          >
+            <Button
+              onClick={() => setIsContactOpen(true)}
+              className="rounded-full bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/10 hover:border-white/20 text-white font-medium px-6 py-5 text-sm transition-all duration-300 cursor-pointer shadow-[0_0_20px_rgba(255,255,255,0.02)]"
+            >
+              Iniciar Proyecto
+            </Button>
+          </motion.div>
+        </div>
+
+        {/* Contact Button for Mobile */}
+        <motion.div
+          className="md:hidden"
+          whileTap={{ scale: 0.95 }}
+        >
+          <Button
+            onClick={() => setIsContactOpen(true)}
+            className="rounded-full bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/10 text-white text-xs px-4 py-2 cursor-pointer"
+          >
+            Contacto
+          </Button>
+        </motion.div>
       </motion.nav>
 
       {/* Contact Modal (Pill Dock) */}
@@ -292,7 +331,6 @@ export default function PortfolioEmpresa3D() {
       <section className="relative h-screen flex flex-col justify-center items-center px-4 overflow-visible">
         {/* Spline Background */}
         <motion.div
-          style={{ scale: isMobile ? 1 : scaleHeroBackground }}
           className="absolute inset-0 z-0 pointer-events-none flex justify-center items-center"
         >
           {/* Fading the iframe smoothly using a CSS mask so it NEVER creates a hard line */}
@@ -314,7 +352,9 @@ export default function PortfolioEmpresa3D() {
 
         {/* Hero Content */}
         <motion.div
-          style={{ y: isMobile ? 0 : yHeroText, opacity: isMobile ? 1 : opacityHeroText }}
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
           className="relative z-20 w-full max-w-7xl mx-auto text-center mt-20"
         >
           <motion.div
@@ -376,8 +416,38 @@ export default function PortfolioEmpresa3D() {
         </motion.div>
       </section>
 
+      {/* Stats Section */}
+      <section className="relative py-16 md:py-24 px-4 z-20 border-y border-white/5 bg-black/25 backdrop-blur-md">
+        <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          {[
+            { value: "30+", label: "Sistemas Desplegados" },
+            { value: "20+", label: "Clientes Satisfechos" },
+            { value: "30+", label: "Usuarios Activos" },
+            { value: "99.99%", label: "Uptime en Cloud" }
+          ].map((stat, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: false, margin: "-50px" }}
+              transition={{ duration: 0.8, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="flex flex-col items-center justify-center p-4 md:p-6 group relative"
+            >
+              <h3 className="text-4xl md:text-6xl font-black tracking-tight text-white mb-2 group-hover:scale-105 transition-transform duration-500 bg-clip-text text-transparent bg-gradient-to-b from-white to-zinc-400">
+                {stat.value}
+              </h3>
+              <p className="text-xs md:text-sm font-mono tracking-widest text-zinc-500 uppercase">
+                {stat.label}
+              </p>
+              {/* Subtle accent light */}
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.015)_0%,transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
       {/* Systems Section */}
-      <section className="relative py-24 md:py-32 px-4 md:px-8 z-20 bg-transparent">
+      <section id="arquitectura" className="relative py-24 md:py-32 px-4 md:px-8 z-20 bg-transparent">
         <div className="max-w-7xl mx-auto">
           <div className="mb-16 md:mb-32 text-center md:text-left">
             <h2 className="text-4xl md:text-7xl font-bold tracking-tight text-white mb-4">Arquitectura.</h2>
@@ -397,10 +467,10 @@ export default function PortfolioEmpresa3D() {
             ].map((item, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.6, delay: isMobile ? 0 : i * 0.1, ease: "easeOut" }}
+                viewport={{ once: false, margin: "-80px" }}
+                transition={{ duration: 0.8, delay: isMobile ? 0 : i * 0.08, ease: [0.16, 1, 0.3, 1] }}
                 className="group h-full"
               >
                 <div className="h-full relative flex flex-col justify-between bg-[#0a0a0a]/80 backdrop-blur-md border border-white/5 p-6 md:p-8 overflow-hidden hover:border-white/20 transition-colors duration-300">
@@ -433,7 +503,7 @@ export default function PortfolioEmpresa3D() {
       </section>
 
       {/* Projects Parallax Section */}
-      <section className="relative py-24 md:py-48 px-4 md:px-8 overflow-hidden bg-transparent">
+      <section id="obras" className="relative py-24 md:py-48 px-4 md:px-8 overflow-hidden bg-transparent">
         <div className="max-w-7xl mx-auto">
           <div className="mb-16 md:mb-24 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 md:gap-8">
             <div>
@@ -447,7 +517,13 @@ export default function PortfolioEmpresa3D() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
             {/* Column 1 */}
-            <motion.div style={{ y: isMobile ? 0 : yProjects1 }} className="flex flex-col gap-8 md:gap-16">
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: false, margin: "-120px" }}
+              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+              className="flex flex-col gap-8 md:gap-16"
+            >
               <ProjectCard
                 title="WorkHR System"
                 category="HR Platform"
@@ -462,10 +538,22 @@ export default function PortfolioEmpresa3D() {
                 desc="Entorno de trabajo inteligente para equipos de alto rendimiento, optimizado por IA."
                 href="https://www.flowi.site/"
               />
+              <ProjectCard
+                title="Apex Dashboard"
+                category="Business Metrics"
+                image="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop"
+                desc="Panel de administración sencillo para la visualización de ventas, inventarios y métricas mensuales de comercios locales."
+              />
             </motion.div>
 
             {/* Column 2 */}
-            <motion.div style={{ y: isMobile ? 0 : yProjects2 }} className="flex flex-col gap-8 md:gap-16 md:mt-32">
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: false, margin: "-120px" }}
+              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
+              className="flex flex-col gap-8 md:gap-16 md:mt-32"
+            >
               <ProjectCard
                 title="Grupo Empresarial Portal"
                 category="Corporate Web Platform"
@@ -478,7 +566,55 @@ export default function PortfolioEmpresa3D() {
                 image="https://images.unsplash.com/photo-1555421689-491a97ff2040?q=80&w=2940&auto=format&fit=crop"
                 desc="Sistema integral de control de inventario, roles de usuario y registro de movimientos financieros."
               />
+              <ProjectCard
+                title="Vesta Inmobiliaria"
+                category="Real Estate Web"
+                image="https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=2746&auto=format&fit=crop"
+                desc="Sitio web con catálogo interactivo de propiedades de la zona y formulario integrado para agendar visitas directamente."
+              />
             </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Tech Stack Section */}
+      <section className="relative py-24 md:py-32 px-4 md:px-8 z-20 border-t border-white/5 bg-transparent">
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-16 md:mb-24 text-center md:text-left">
+            <h2 className="text-4xl md:text-7xl font-bold tracking-tight text-white mb-4">Nuestra Tecnología.</h2>
+            <p className="text-lg md:text-2xl text-zinc-500 font-light max-w-2xl mx-auto md:mx-0">
+              Implementamos herramientas robustas y lenguajes modernos para garantizar un rendimiento implacable.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {[
+              { name: "React / Next.js", desc: "Estructuras web reactivas e híbridas", level: "Avanzado" },
+              { name: "Node.js / Go", desc: "APIs veloces de alta concurrencia", level: "Avanzado" },
+              { name: "AWS Cloud", desc: "Infraestructura elástica y serverless", level: "Experto" },
+              { name: "PostgreSQL / Redis", desc: "Persistencia escalable e instantánea", level: "Experto" },
+              { name: "Docker / K8s", desc: "Contenedores y orquestación ágil", level: "Avanzado" },
+              { name: "TailwindCSS", desc: "Diseño modular de alta fidelidad", level: "Experto" },
+              { name: "TypeScript", desc: "Tipado estricto para código seguro", level: "Avanzado" },
+              { name: "CI / CD", desc: "Despliegues automatizados sin fricción", level: "Experto" }
+            ].map((tech, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: false, margin: "-80px" }}
+                transition={{ duration: 0.8, delay: i * 0.05, ease: [0.16, 1, 0.3, 1] }}
+                className="group relative p-6 bg-[#0a0a0a]/60 backdrop-blur-md border border-white/5 rounded-2xl hover:border-white/20 transition-all duration-500"
+              >
+                <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <span className="text-[10px] font-mono tracking-wider text-zinc-600 uppercase block mb-2">{tech.level}</span>
+                <h4 className="text-lg md:text-xl font-bold text-zinc-200 group-hover:text-white mb-2 transition-colors">{tech.name}</h4>
+                <p className="text-xs md:text-sm text-zinc-500 font-light leading-relaxed group-hover:text-zinc-400 transition-colors">{tech.desc}</p>
+                
+                {/* Micro glow effect */}
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,rgba(255,255,255,0.01)_0%,transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl pointer-events-none" />
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
@@ -488,10 +624,10 @@ export default function PortfolioEmpresa3D() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.03)_0%,transparent_70%)] pointer-events-none" />
 
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          viewport={{ once: false, margin: "-80px" }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           className="relative z-10 max-w-4xl mx-auto"
         >
 
@@ -551,11 +687,11 @@ function ProjectCard({ title, category, image, desc, href }) {
         <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-30" />
 
         <div className="relative overflow-hidden w-full h-[65%] border border-white/5 z-10">
-          <div className="absolute inset-0 bg-black/60 group-hover:bg-transparent transition-colors duration-500 z-20" />
+          <div className="absolute inset-0 bg-black/60 group-hover:bg-transparent transition-colors duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] z-20" />
           <img
             src={image}
             alt={title}
-            className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500 scale-105 group-hover:scale-100"
+            className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] scale-105 group-hover:scale-100"
           />
           <div className="absolute top-3 left-3 md:top-4 md:left-4 z-30">
             <span className="px-2 py-1 md:px-3 md:py-1 bg-black/50 backdrop-blur-md border border-white/10 text-[10px] md:text-xs font-mono tracking-widest text-white uppercase">
