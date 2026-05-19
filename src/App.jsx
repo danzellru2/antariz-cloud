@@ -157,7 +157,7 @@ export default function PortfolioEmpresa3D() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm px-4"
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm px-4 overflow-y-auto py-6"
             onClick={() => setIsContactOpen(false)}
           >
             <motion.div
@@ -166,7 +166,7 @@ export default function PortfolioEmpresa3D() {
               exit={{ opacity: 0, scale: 0.9, y: 40 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
               onClick={(e) => e.stopPropagation()}
-              className="flex flex-wrap justify-center items-center gap-4 md:gap-8 p-4 md:p-6 bg-black/30 backdrop-blur-[40px] border border-white/20 rounded-[2rem] shadow-[0_0_80px_rgba(255,255,255,0.1)]"
+              className="flex flex-wrap justify-center items-center gap-3 sm:gap-4 md:gap-8 p-4 md:p-6 bg-black/30 backdrop-blur-[40px] border border-white/20 rounded-[1.5rem] sm:rounded-[2rem] shadow-[0_0_80px_rgba(255,255,255,0.1)]"
             >
               <ContactIcon
                 Icon={Mail}
@@ -193,7 +193,7 @@ export default function PortfolioEmpresa3D() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[110] flex flex-col items-center justify-center bg-black/60 backdrop-blur-sm px-4 gap-6"
+            className="fixed inset-0 z-[110] overflow-y-auto flex flex-col items-center justify-start md:justify-center bg-black/60 backdrop-blur-sm px-4 py-8 md:py-12 gap-4 sm:gap-6"
             onClick={() => setIsFormOpen(false)}
           >
             {/* Form Container */}
@@ -203,51 +203,51 @@ export default function PortfolioEmpresa3D() {
               exit={{ opacity: 0, scale: 0.9, y: 40 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
               onClick={(e) => e.stopPropagation()}
-              className="w-full max-w-lg p-8 md:p-10 bg-black/30 backdrop-blur-[40px] border border-white/20 rounded-[2rem] shadow-[0_0_80px_rgba(255,255,255,0.1)] relative"
+              className="w-full max-w-lg p-5 sm:p-8 md:p-10 bg-black/30 backdrop-blur-[40px] border border-white/20 rounded-[1.5rem] sm:rounded-[2rem] shadow-[0_0_80px_rgba(255,255,255,0.1)] relative"
             >
               <button
                 onClick={() => setIsFormOpen(false)}
-                className="absolute top-6 right-6 text-zinc-500 hover:text-white transition-colors"
+                className="absolute top-4 right-4 sm:top-6 sm:right-6 text-zinc-500 hover:text-white transition-colors"
               >
                 ✕
               </button>
 
-              <div className="mb-8">
-                <h3 className="text-3xl font-black text-white tracking-tight mb-2">Conecta con Nosotros</h3>
-                <p className="text-zinc-400 font-light text-sm md:text-base">Inicia tu evolución en la nube. Déjanos un mensaje y nuestro equipo se contactará contigo a la brevedad.</p>
+              <div className="mb-5 sm:mb-8">
+                <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight mb-1 sm:mb-2">Conecta con Nosotros</h3>
+                <p className="text-zinc-400 font-light text-xs sm:text-sm md:text-base leading-relaxed">Inicia tu evolución en la nube. Déjanos un mensaje y nuestro equipo se contactará contigo a la brevedad.</p>
               </div>
 
-              <form onSubmit={handleFormSubmit} className="flex flex-col gap-5">
+              <form onSubmit={handleFormSubmit} className="flex flex-col gap-4 sm:gap-5">
                 <div>
-                  <label className="block text-xs font-bold text-zinc-500 uppercase tracking-widest mb-2">Nombre completo</label>
+                  <label className="block text-[10px] sm:text-xs font-bold text-zinc-500 uppercase tracking-widest mb-1.5 sm:mb-2">Nombre completo</label>
                   <input
                     type="text"
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-white/40 focus:bg-white/10 transition-all font-light"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 sm:py-3.5 text-white focus:outline-none focus:border-white/40 focus:bg-white/10 transition-all font-light text-sm sm:text-base"
                     placeholder="Ej. Elon Musk"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-zinc-500 uppercase tracking-widest mb-2">Correo Electrónico</label>
+                  <label className="block text-[10px] sm:text-xs font-bold text-zinc-500 uppercase tracking-widest mb-1.5 sm:mb-2">Correo Electrónico</label>
                   <input
                     type="email"
                     required
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-white/40 focus:bg-white/10 transition-all font-light"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 sm:py-3.5 text-white focus:outline-none focus:border-white/40 focus:bg-white/10 transition-all font-light text-sm sm:text-base"
                     placeholder="contacto@empresa.com"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-zinc-500 uppercase tracking-widest mb-2">Proyecto o Mensaje</label>
+                  <label className="block text-[10px] sm:text-xs font-bold text-zinc-500 uppercase tracking-widest mb-1.5 sm:mb-2">Proyecto o Mensaje</label>
                   <textarea
-                    rows="4"
+                    rows="3"
                     required
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-white/40 focus:bg-white/10 transition-all font-light resize-none"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 sm:py-3.5 text-white focus:outline-none focus:border-white/40 focus:bg-white/10 transition-all font-light resize-none text-sm sm:text-base"
                     placeholder="¿Cómo podemos potenciar tu infraestructura?"
                   ></textarea>
                 </div>
@@ -266,7 +266,7 @@ export default function PortfolioEmpresa3D() {
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="mt-2 w-full bg-white/10 backdrop-blur-md border border-white/20 text-white font-bold text-lg py-6 rounded-xl hover:bg-white/20 hover:border-white/40 transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.05)] disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="mt-2 w-full bg-white/10 backdrop-blur-md border border-white/20 text-white font-bold text-base sm:text-lg py-4 sm:py-6 rounded-xl hover:bg-white/20 hover:border-white/40 transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.05)] disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? 'Enviando...' : 'Enviar Mensaje'}
                 </Button>
@@ -280,7 +280,7 @@ export default function PortfolioEmpresa3D() {
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
               transition={{ type: "spring", damping: 25, stiffness: 300, delay: 0.1 }}
               onClick={(e) => e.stopPropagation()}
-              className="flex flex-wrap justify-center items-center gap-4 md:gap-8 p-4 md:p-6 bg-black/30 backdrop-blur-[40px] border border-white/20 rounded-[2rem] shadow-[0_0_80px_rgba(255,255,255,0.1)]"
+              className="flex flex-wrap justify-center items-center gap-3 sm:gap-4 md:gap-8 p-3 sm:p-4 md:p-6 bg-black/30 backdrop-blur-[40px] border border-white/20 rounded-[1.5rem] sm:rounded-[2rem] shadow-[0_0_80px_rgba(255,255,255,0.1)]"
             >
               <ContactIcon Icon={MessageCircle} label="WhatsApp" href="#" />
               <ContactIcon Icon={LinkedinIcon} label="LinkedIn" href="#" />
@@ -292,38 +292,12 @@ export default function PortfolioEmpresa3D() {
         )}
       </AnimatePresence>
 
-      {/* Global Animated Background (Pure Grays/Blacks) */}
+      {/* Global Optimized Background (Pure Grays/Blacks - 100% Static Blur to avoid continuous GPU redraws) */}
       <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-        <motion.div
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.03, 0.08, 0.03],
-            x: [0, 50, 0],
-            y: [0, -30, 0]
-          }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-[-10%] left-[-10%] w-[80vw] h-[80vw] md:w-[50vw] md:h-[50vw] rounded-full bg-white blur-[100px] md:blur-[150px]"
-        />
-        <motion.div
-          animate={{
-            scale: [1, 1.1, 1],
-            opacity: [0.02, 0.06, 0.02],
-            x: [0, -50, 0],
-            y: [0, 50, 0]
-          }}
-          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-          className="absolute bottom-[-20%] right-[-10%] w-[90vw] h-[90vw] md:w-[60vw] md:h-[60vw] rounded-full bg-zinc-400 blur-[100px] md:blur-[150px]"
-        />
-        <motion.div
-          animate={{
-            scale: [1, 1.4, 1],
-            opacity: [0.01, 0.04, 0.01],
-            rotate: [0, 45, 0]
-          }}
-          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-[30%] left-[40%] w-[60vw] h-[60vw] md:w-[40vw] md:h-[40vw] rounded-full bg-zinc-300 blur-[120px] md:blur-[180px]"
-        />
-        {/* Animated grid overlay - seamlessly covers everything */}
+        <div className="absolute top-[-10%] left-[-10%] w-[80vw] h-[80vw] md:w-[50vw] md:h-[50vw] rounded-full bg-white opacity-[0.04] blur-[100px] md:blur-[150px]" />
+        <div className="absolute bottom-[-20%] right-[-10%] w-[90vw] h-[90vw] md:w-[60vw] md:h-[60vw] rounded-full bg-zinc-400 opacity-[0.03] blur-[100px] md:blur-[150px]" />
+        <div className="absolute top-[30%] left-[40%] w-[60vw] h-[60vw] md:w-[40vw] md:h-[40vw] rounded-full bg-zinc-300 opacity-[0.02] blur-[120px] md:blur-[180px]" />
+        {/* Static grid overlay */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,#000_20%,transparent_100%)]" />
       </div>
 
@@ -429,7 +403,7 @@ export default function PortfolioEmpresa3D() {
               key={i}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, margin: "-50px" }}
+              viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.8, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
               className="flex flex-col items-center justify-center p-4 md:p-6 group relative"
             >
@@ -469,7 +443,7 @@ export default function PortfolioEmpresa3D() {
                 key={i}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false, margin: "-80px" }}
+                viewport={{ once: true, margin: "-80px" }}
                 transition={{ duration: 0.8, delay: isMobile ? 0 : i * 0.08, ease: [0.16, 1, 0.3, 1] }}
                 className="group h-full"
               >
@@ -520,7 +494,7 @@ export default function PortfolioEmpresa3D() {
             <motion.div 
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, margin: "-120px" }}
+              viewport={{ once: true, margin: "-120px" }}
               transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
               className="flex flex-col gap-8 md:gap-16"
             >
@@ -550,7 +524,7 @@ export default function PortfolioEmpresa3D() {
             <motion.div 
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, margin: "-120px" }}
+              viewport={{ once: true, margin: "-120px" }}
               transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
               className="flex flex-col gap-8 md:gap-16 md:mt-32"
             >
@@ -602,7 +576,7 @@ export default function PortfolioEmpresa3D() {
                 key={i}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false, margin: "-80px" }}
+                viewport={{ once: true, margin: "-80px" }}
                 transition={{ duration: 0.8, delay: i * 0.05, ease: [0.16, 1, 0.3, 1] }}
                 className="group relative p-6 bg-[#0a0a0a]/60 backdrop-blur-md border border-white/5 rounded-2xl hover:border-white/20 transition-all duration-500"
               >
@@ -626,7 +600,7 @@ export default function PortfolioEmpresa3D() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, margin: "-80px" }}
+          viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           className="relative z-10 max-w-4xl mx-auto"
         >
