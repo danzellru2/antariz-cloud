@@ -292,15 +292,15 @@ export default function PortfolioEmpresa3D() {
         )}
       </AnimatePresence>
 
-      {/* Global Optimized Background (Pure Grays/Blacks - 100% Static Blur to avoid continuous GPU redraws) */}
+      {/* Global Optimized Background */}
       <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
         <div className="absolute top-[-10%] left-[-10%] w-[80vw] h-[80vw] md:w-[50vw] md:h-[50vw] rounded-full bg-white opacity-[0.04] blur-[100px] md:blur-[150px]" />
         <div className="absolute bottom-[-20%] right-[-10%] w-[90vw] h-[90vw] md:w-[60vw] md:h-[60vw] rounded-full bg-zinc-400 opacity-[0.03] blur-[100px] md:blur-[150px]" />
         <div className="absolute top-[30%] left-[40%] w-[60vw] h-[60vw] md:w-[40vw] md:h-[40vw] rounded-full bg-zinc-300 opacity-[0.02] blur-[120px] md:blur-[180px]" />
-        {/* Static grid overlay */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,#000_20%,transparent_100%)]" />
       </div>
 
+      <main>
       {/* Hero Section */}
       <section className="relative h-screen flex flex-col justify-center items-center px-4 overflow-visible">
         {/* Spline Background */}
@@ -481,8 +481,10 @@ export default function PortfolioEmpresa3D() {
         <div className="max-w-7xl mx-auto">
           <div className="mb-16 md:mb-24 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 md:gap-8">
             <div>
-              <h2 className="text-5xl sm:text-6xl md:text-8xl font-black tracking-tight uppercase">Obras</h2>
-              <h2 className="text-5xl sm:text-6xl md:text-8xl font-light italic text-zinc-600 uppercase">Maestras</h2>
+              <h2 className="text-5xl sm:text-6xl md:text-8xl font-black tracking-tight uppercase">
+                Obras <br className="md:hidden" />
+                <span className="font-light italic text-zinc-600">Maestras</span>
+              </h2>
             </div>
             <p className="text-base md:text-xl text-zinc-500 max-w-sm text-left md:text-right font-light">
               Donde la obsidiana se encuentra con el cristal. Soluciones construidas para liderar.
@@ -620,6 +622,7 @@ export default function PortfolioEmpresa3D() {
           </div>
         </motion.div>
       </section>
+      </main>
     </div>
   );
 }
